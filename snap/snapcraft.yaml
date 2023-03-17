@@ -1,5 +1,5 @@
-name: worldcoin-core
-title: 'Worldcoin Core QT Wallet'
+name: worldcoin
+title: 'Worldcoin Core Wallet'
 version: '0.17.1'
 summary: Separated by borders, United by technology
 description: |
@@ -68,7 +68,7 @@ parts:
       - xdg-user-dirs
       - fcitx-frontend-qt5
 
-  worldcoin-core:
+  worldcoin:
     plugin: nil
     override-build: | 
       env | grep SNAP
