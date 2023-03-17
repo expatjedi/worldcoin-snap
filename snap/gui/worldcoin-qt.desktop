@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Woldcoin Core Wallet
+Comment=Connect to the Worldcoin P2P Network
+Exec=worldcoin.qt %u
+Terminal=false
+Type=Application
+Icon=${SNAP}/share/pixmaps/worldcoin128.png
+MimeType=x-scheme-handler/goldcoin;
+Categories=Office;Finance;P2P;Network;Qt;
+StartupWMClass=worldcoin-qt

@@ -1,0 +1,86 @@
+name: worldcoin-core
+title: 'Worldcoin Core QT Wallet'
+version: '0.17.1'
+summary: Separated by borders, United by technology
+description: |
+  Launched in May 2013, Worldcoin is the 9th longest running blockchain in existence.
+  Reaching $1 per WDC in late 2013. Worldcoin has a rich history and enormous potential
+  with 8 years of proven durability. Worldcoin has survived because it's truly decentralized.
+
+contact: kbicer@proton.me
+issues: https://github.com/expatjedi/worldcoin-snap/issues
+source-code: https://github.com/expatjedi/worldcoin-snap.git
+icon: snap/gui/logo.png
+license: MIT
+
+grade: stable
+confinement: strict
+base: core18
+
+apps:
+  daemon:
+    command: worldcoind
+    plugs: [home, removable-media, network, network-bind]
+    environment:
+      HOME: $SNAP_USER_COMMON
+  qt:
+    command: desktop-launch worldcoin-qt
+    plugs: [home, removable-media, network, network-bind, desktop, x11, unity7]
+    environment:
+      HOME: $SNAP_USER_COMMON
+      DISABLE_WAYLAND: 1
+  cli:
+    command: worldcoin-cli
+    plugs: [home, removable-media, network]
+    environment:
+      HOME: $SNAP_USER_COMMON
+  tx:
+    command: worldcoin-tx
+    environment:
+      HOME: $SNAP_USER_COMMON
+
+parts:
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-depth: 1
+    source-subdir: qt
+    source-commit: ec861254c2a1d2447b2c589446e6cdf04c75c260
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - libgtk2.0-0
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5gui5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5
+      - try: [appmenu-qt5]
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
+
+  worldcoin-core:
+    plugin: nil
+    override-build: | 
+      env | grep SNAP
+      wget https://github.com/expatjedi/worldcoin-snap/releases/download/${SNAPCRAFT_PROJECT_VERSION}/worldcoin-core-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      tar -xvf worldcoin-core-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoind
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoin-qt
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoin-cli
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoin-tx
+      wget https://raw.githubusercontent.com/expatjedi/worldcoin/develop/share/pixmaps/worldcoin128.png
+      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps worldcoin128.png
+    build-packages:
+      - wget
+    after:
+      - desktop-qt5
