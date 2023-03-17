@@ -75,7 +75,6 @@ parts:
       wget https://github.com/expatjedi/worldcoin-snap/releases/download/${SNAPCRAFT_PROJECT_VERSION}/worldcoin-core-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       tar -xvf worldcoin-core-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoind
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoin-qt
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoin-cli
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin worldcoin-tx
       wget https://raw.githubusercontent.com/expatjedi/worldcoin/develop/share/pixmaps/worldcoin128.png
